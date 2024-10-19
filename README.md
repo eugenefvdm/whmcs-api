@@ -5,7 +5,7 @@ A fully testable WHMCS API designed to run standalone or as part of a Laravel Ap
 
 Requirements:
 
-- PHP 8.1
+- PHP 8.2
 - WHMCS
 
 # Installation
