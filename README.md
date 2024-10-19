@@ -25,7 +25,7 @@ WHMCS_LIMITNUM=
 WHMCS_DEBUG=
 ```
 
-Note: `WHMCS_URL` should be without the trialing slash.
+`WHMCS_URL` should be without the trialing slash.
 
 ## WHMCS Setup
 
@@ -35,7 +35,7 @@ Allow the IP address of the system connecting to WHMCS:
 Systems Settings => General => Security => API IP Access Restriction
 ```
 
-Create API permissions here:
+Create API permissions:
 
 ```
 System Settings => API credentials => Generate New API Credential
@@ -54,12 +54,12 @@ WHMCS removed the ability to add custom API calls, but there is a hack to get it
 
 An example of a custom API call would be to get a client by their phone number. Let's call this `getclientbyphonenumber`. At least two steps are required.
 
-1. Code the API call
+1. Create a custom API call
 2. Inject the permission into the database
 
-#### Code the API call
+#### Example custom API call
 
-You'll first have to first code the API function and save it here:
+Save the example code below here:
 `includes/api/getclientbyphoneumber.php`
 
 ```php
@@ -92,14 +92,20 @@ try {
 }
 ```
 
-Next to use the custom API call `getclientbyphonenumber` you need to manually update `tblapi_roles` to add it.
-Also remember to update it every time again you make a change because the UI will overwrite the custom API call.
+Next to use the custom API call `getclientbyphonenumber` you need to manually update `tblapi_roles` and add it there.
+
+Also remember
+to update it every time again you make a changes in the UI because the UI will *overwrite* the custom API call.
+
+In the example below, the JSON in the database has been updated to include the new API call `getclientbyphonenumber`.
 
 ```json
 {"addclient":1,"getclientsdetails":1,"getclientbyphonenumber":1}
 ```
 
-If you haven't added the PHP file yet, you'll get `API Function Not Found`
+If you haven't added the PHP file yet, you'll get `API Function Not Found`.
+
+# Examples
 
 ## Framework Agnostic PHP
 
@@ -124,13 +130,13 @@ $api = new WhmcsApi($server);
 $result = $api->getClients();
 ```
 
-## Laravel Installation
+## Laravel
 
 Publish the configuration file:
 
 `php artisan vendor:publish --tag=whmcs-config`
 
-## Changelog
+# Changelog
 
 See [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
@@ -282,6 +288,6 @@ MIT
 
 hello (at) eugenefvdm.com <br>
 https://eugenefvdm.com <br>
-+27 82 309-6710 <br>
++27 82 309–6710 <br>
 I am a Laravel, hosting, and WHMCS specialist.
 Contact me any time for assistance.
