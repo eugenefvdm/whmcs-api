@@ -2,8 +2,8 @@
 
 namespace Eugenefvdm\Whmcs;
 
-use Exception;
 use Eugenefvdm\Whmcs\Contracts\BillingProvider;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class Whmcs implements BillingProvider
@@ -13,6 +13,7 @@ class Whmcs implements BillingProvider
     private string $api_identifier;
 
     private string $api_secret;
+
     private array $mergeData;
 
     public function __construct($client)
