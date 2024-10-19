@@ -12,17 +12,26 @@ Requirements:
 
 ```bash
 composer require eugenefvdm/whmcs-api
-cp .env.example .env
 ```
 
-## Environment settings
+Publish the configuration file:
 
-```dotenv
-WHMCS_URL=
-WHMCS_API_IDENTIFIER=
-WHMCS_API_SECRET=
-WHMCS_LIMITNUM=
-WHMCS_DEBUG=
+```bash
+php artisan vendor:publish --provider="Eugenefvdm\Whmcs\WhmcsServiceProvider" 
+```
+
+## Configuration Settings `whmcs.php`
+
+```php
+<?php
+
+return [
+    'url' => env('WHMCS_URL'),
+    'api_identifier' => env('WHMCS_API_IDENTIFIER'),
+    'api_secret' => env('WHMCS_API_SECRET'),
+    'limitnum' => env('WHMCS_LIMITNUM', 10000),
+    'debug' => env('WHMCS_DEBUG'),
+];
 ```
 
 `WHMCS_URL` should be without the trialing slash.
@@ -194,7 +203,11 @@ A new package is applied to the service. If the package is linked to an API, the
 
 # Testing
 
-Before testing, please ensure you have copied over the `.env.example` file to `.env`.
+Before testing, please ensure you have copied over the `.env.example` file to `.env` as the tests use `dotenv`.
+
+```bash
+cp .env.example .env
+```
 
 ## Debugging
 
