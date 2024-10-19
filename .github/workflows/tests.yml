@@ -6,12 +6,12 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
+        php: ["8.2"]
 
     name: PHP ${{ matrix.php }} - Pest
 
