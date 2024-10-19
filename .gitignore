@@ -22,7 +22,9 @@ storage/*.key
 Homestead.yaml
 Homestead.json
 /.vagrant
+
 .phpunit.result.cache
+.phpunit.cache/test-results
 
 ## Customizations
 ## /build is created by phpunit
@@ -30,3 +32,4 @@ Homestead.json
 coverage.xml
 /.idea
 .scp
+
