@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 /**
  * The configuration variable to a shortcut to WHMCS credentials
  */
-$config = new Config();
+$config = new Config;
 
 test('php pest is installed and operational', function () {
     expect(true)->toBeTrue();
@@ -351,11 +351,11 @@ test("it can update a client's domain registrar", function () {
 test('it can place a new order', function () use ($config) {
     Http::fake([
         'https://whmcs.test/includes/api.php' => Http::response([
-            'result' => "success",
+            'result' => 'success',
             'orderid' => 1,
-            'serviceids' => "1,2",
-            'addonids' => "",
-            'domainids' => "",
+            'serviceids' => '1,2',
+            'addonids' => '',
+            'domainids' => '',
             'invoiceid' => 10,
         ]),
     ]);
@@ -365,10 +365,10 @@ test('it can place a new order', function () use ($config) {
     $orderDetails = [
         'clientid' => 1,
         'paymentmethod' => 'mailin',
-        'pid' => array(1,1),
+        'pid' => [1, 1],
     ];
 
-    $result =$api->addOrder($orderDetails);
+    $result = $api->addOrder($orderDetails);
 
     expect($result)
         ->toHaveKey('result', 'success')

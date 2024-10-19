@@ -22,7 +22,7 @@ class Config
 
     public function loadDotEnv()
     {
-        $dotenv = new Dotenv();
+        $dotenv = new Dotenv;
 
         try {
             $dotenv->load(__DIR__.'/../.env');
