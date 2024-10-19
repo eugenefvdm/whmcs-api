@@ -1,6 +1,6 @@
 <?php
 
-use FintechSystems\WhmcsApi\WhmcsApi;
+use Eugenefvdm\WhmcsApi\WhmcsApi;
 
 require 'vendor/autoload.php';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FintechSystems\Whmcs\Tests;
+namespace Eugenefvdm\Whmcs\Tests;
 
 use Exception;
 use Symfony\Component\Dotenv\Dotenv;

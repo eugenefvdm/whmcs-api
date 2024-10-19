@@ -1,6 +1,6 @@
 <?php
 
-namespace FintechSystems\Whmcs\Contracts;
+namespace Eugenefvdm\Whmcs\Contracts;
 
 interface BillingProvider
 {

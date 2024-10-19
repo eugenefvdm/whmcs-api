@@ -1,20 +1,20 @@
 # WHMCS API
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/fintech-systems/whmcs-php-api) ![Tests](https://github.com/fintech-systems/whmcs-php-api/actions/workflows/tests.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/fintech-systems/whmcs-php-api)
 
-A WHMCS API designed to run standalone or as part of a Laravel Application
+A fully testable WHMCS API designed to run standalone or as part of a Laravel Application
 
 Requirements:
 
 - PHP 8.1
 - WHMCS
 
-# Why this package?
+# Installation
 
-WHMCS already has an extensive API. Why build another API? The reason is quite simple:
+In WHMCS, create API permissions at:
 
-The WHMCS API code examples depend on CURL. Mocking CURL is possible but complicated. Instead, Laravel already has beautiful HTTP testing and Http::fake mocking. Using Laravel (and in this case, Pest) means application development is sped up tremendously. Essentially you get away from testing against development servers. Even if you're not using Laravel, the framework's testing ability means it's possibly to write more complex software that's fail safe.
-
-# Usage
+```
+System Settings => API credentials => Generate New API Credential
+```
 
 ## WHMCS API Permissions
 
@@ -85,7 +85,7 @@ If you haven't added the PHP file yet, you'll get `API Function Not Found`
 ```php
 <?php
 
-use FintechSystems\WhmcsApi\WhmcsApi;
+use Eugenefvdm\WhmcsApi\WhmcsApi;
 
 require 'vendor/autoload.php';
 
@@ -165,6 +165,30 @@ Result:
 A new package is applied to the service. If the package is linked to an API, the API will be called. 
 
 # Testing
+
+Before testing, please ensure you have at least the following three environment variables set:
+
+```dotenv
+WHMCS_URL=
+WHMCS_API_IDENTIFIER=
+WHMCS_API_SECRET=
+```
+
+Note: `WHMCS_URL` should be without the trialing slash otherwise tests will fail. For example:
+
+```dotenv
+WHMCS_URL=https://whmcs.test
+```
+
+You may do this:
+
+`cp .env.example .env`
+
+Then edit `.env` to include your WHMCS URL, API Identifier and API Secret.
+
+`vi .env`
+
+## Running the tests
 
 `./vendor/bin/pest`
 

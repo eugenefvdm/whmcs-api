@@ -1,22 +1,19 @@
 <?php
 
-namespace FintechSystems\Whmcs;
+namespace Eugenefvdm\Whmcs;
 
 use Exception;
-use FintechSystems\Whmcs\Contracts\BillingProvider;
+use Eugenefvdm\Whmcs\Contracts\BillingProvider;
 use Illuminate\Support\Facades\Http;
 
 class Whmcs implements BillingProvider
 {
-    private $url;
+    private string $url;
 
-    private $api_identifier;
+    private string $api_identifier;
 
-    private $api_secret;
-
-    private $globalLimitstart = 0;
-
-    private $globalLimitnum = 10000;
+    private string $api_secret;
+    private array $mergeData;
 
     public function __construct($client)
     {
@@ -26,9 +23,9 @@ class Whmcs implements BillingProvider
 
         $this->throwExceptionIfUrlNotPresent();
 
-        $this->data = [
-            'limitstart' => $this->globalLimitstart,
-            'limitnum' => $this->globalLimitnum,
+        $this->mergeData = [
+            'limitstart' => 0,
+            'limitnum' => config('whmcs.limitnum'),
         ];
     }
 
@@ -66,6 +63,8 @@ class Whmcs implements BillingProvider
 
     /**
      * Add order
+     *
+     * Required fields: action, clientid, paymentmethod
      *
      * https://developers.whmcs.com/api-reference/addorder/
      */
@@ -312,10 +311,10 @@ class Whmcs implements BillingProvider
             'action' => $action,
             'responsetype' => 'json',
         ];
-        $postfields = array_merge($data, $this->data, $postfields);
+        $postfields = array_merge($data, $this->mergeData, $postfields);
 
-        // Output input to API call
-        ray($postfields);
+        // Display the input to the API call if debugging is enabled
+        config('whmcs.debug') && ray($postfields);
 
         $apiUrl = $this->url.'/includes/api.php';
 
@@ -330,6 +329,8 @@ class Whmcs implements BillingProvider
                 throw new Exception($response->json()['message']);
             }
         }
+
+        config('whmcs.debug') && ray($response->json());
 
         return $response->json();
     }

@@ -1,6 +1,19 @@
 # Changelog
 
-All notable changes to `whmcs-php-api` will be documented in this file.
+All notable changes to `whmcs-api` will be documented in this file.
+
+## 19 Oct 2024
+
+- Moved the repo from `fintech-systems/whmcs-php-api` to `eugenefvdm/whmcs-api`
+- Updated the README to specify that URLs should not have a trailing slash
+- Upgraded Pest so that we can use `->todo()`
+- Changed the WHMCS test installation test from `->skip()` to `->todo()`
+- Took out the section `Why` in the readme
+- Upgraded these composer libraries: `pest`, `orchestra test bench`, `dotenv`, `spatie-ray`
+- Bumped the PHP version to `8.2`
+- Followed various PhpStorm IDE suggestions to improve the code
+- Added a new environment setting `WHMCS_DEBUG`
+- Created an automated test for adding new orders
 
 ## Unreleased
 

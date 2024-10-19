@@ -1,10 +1,13 @@
 <?php
 
-use FintechSystems\Whmcs\Facades\Whmcs;
-use FintechSystems\Whmcs\Tests\Config;
-use FintechSystems\Whmcs\Whmcs as WhmcsApi;
+use Eugenefvdm\Whmcs\Facades\Whmcs;
+use Eugenefvdm\Whmcs\Tests\Config;
+use Eugenefvdm\Whmcs\Whmcs as WhmcsApi;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * The configuration variable to a shortcut to WHMCS credentials
+ */
 $config = new Config();
 
 test('php pest is installed and operational', function () {
@@ -13,7 +16,7 @@ test('php pest is installed and operational', function () {
 
 // This will ensure you have a development server installed locally and is skipped by default.
 test('it can access a test whmcs installation', function () {
-    // If using Laravel Valet, https://whmcs.test won't have a legitimate certificate so let's skip checking for that.
+    // If using Laravel Valet, https://whmcs.test won't have a legitimate certificate, so let's skip checking for that.
     $arrContextOptions = [
         'ssl' => [
             'verify_peer' => false,
@@ -24,7 +27,7 @@ test('it can access a test whmcs installation', function () {
     file_get_contents(env('WHMCS_URL'), false, stream_context_create($arrContextOptions));
 
     $this->assertEquals($http_response_header[0], 'HTTP/1.1 200 OK');
-})->skip();
+})->todo('Create a test WHMCS installation before enabling this automated test.');
 
 test("adding a new user to WHMCS doesn't return an invalid IP error", function () use ($config) {
     $whmcs = new WhmcsApi($config->server);
@@ -39,10 +42,10 @@ test("adding a new user to WHMCS doesn't return an invalid IP error", function (
 
     $result = $whmcs->addUser([
         'password2' => 'password',
-        'firstname' => 'User1',
-        'lastname' => 'Lastname1',
-        'email' => 'user113331@example.com',
-        'address1' => '123 Penny Lane',
+        'firstname' => 'First Name',
+        'lastname' => 'Last Name',
+        'email' => 'user@example.com',
+        'address1' => '123 Hysteria Lane',
         'city' => 'Beverly Hills',
         'state' => 'California',
         'postcode' => '90210',
@@ -50,9 +53,9 @@ test("adding a new user to WHMCS doesn't return an invalid IP error", function (
         'phonenumber' => '+27.66 245 4302',
     ]);
 
-    expect($result)->toHaveKey('result', 'success');
-    expect($result)->toHaveKey('clientid');
-    expect($result)->toHaveKey('owner_id');
+    expect($result)->toHaveKey('result', 'success')
+        ->and($result)->toHaveKey('clientid')
+        ->and($result)->toHaveKey('owner_id');
 });
 
 test('it will add an USA user with telephone number and dashes to the system for later testing', function () use ($config) {
@@ -79,9 +82,9 @@ test('it will add an USA user with telephone number and dashes to the system for
         'phonenumber' => '+1.408-555-1234',
     ]);
 
-    expect($result)->toHaveKey('result', 'success');
-    expect($result)->toHaveKey('clientid');
-    expect($result)->toHaveKey('owner_id');
+    expect($result)->toHaveKey('result', 'success')
+        ->and($result)->toHaveKey('clientid')
+        ->and($result)->toHaveKey('owner_id');
 });
 
 test('it can add a user to the billing system', function () use ($config) {
@@ -100,7 +103,7 @@ test('it can add a user to the billing system', function () use ($config) {
         'password2' => 'password',
         'firstname' => 'First Name',
         'lastname' => 'Last Name',
-        'address1' => '1 Kloof Street',
+        'address1' => '1 Gardens Street',
         'city' => 'Cape Town',
         'state' => 'Western Cape',
         'postcode' => '8001',
@@ -108,9 +111,9 @@ test('it can add a user to the billing system', function () use ($config) {
         'phonenumber' => '+27.662454302',
     ]);
 
-    expect($result)->toHaveKey('result', 'success');
-    expect($result)->toHaveKey('clientid');
-    expect($result)->toHaveKey('owner_id');
+    expect($result)->toHaveKey('result', 'success')
+        ->and($result)->toHaveKey('clientid')
+        ->and($result)->toHaveKey('owner_id');
 });
 
 test('it can find a South African user by telephone number in the billing system', function () use ($config) {
@@ -128,9 +131,9 @@ test('it can find a South African user by telephone number in the billing system
         'phonenumber' => '+27.82 309 6710',
     ]);
 
-    expect($result)->toHaveKey('result', 'success');
-    expect($result)->toHaveKey('message', 'ok');
-    expect($result)->toHaveKey('clientid');
+    expect($result)->toHaveKey('result', 'success')
+        ->and($result)->toHaveKey('message', 'ok')
+        ->and($result)->toHaveKey('clientid');
 });
 
 test('it can find a South African user by telephone number without spaces in the billing system', function () use ($config) {
@@ -256,9 +259,9 @@ test('it can retrieve at least two domains', function () {
 
     $result = Whmcs::getClientsDomains();
 
-    expect($result)->toHaveKey('result', 'success');
-    expect($result)->toHaveKey('numreturned', 2);
-    expect($result)->toHaveKey('domains');
+    expect($result)->toHaveKey('result', 'success')
+        ->and($result)->toHaveKey('numreturned', 2)
+        ->and($result)->toHaveKey('domains');
 
     $count = count($result['domains']['domain']);
 
@@ -285,8 +288,8 @@ test('it retrieve registrars', function () {
 
     $result = Whmcs::getRegistrars();
 
-    expect($result)->toHaveKey('status', 'success');
-    expect($result)->toHaveKey(['registrars']['0']);
+    expect($result)->toHaveKey('status', 'success')
+        ->and($result)->toHaveKey(['registrars']['0']);
 });
 
 // sh .scp updateclientaddon.php;./vendor/bin/pest
@@ -305,8 +308,8 @@ test('it can use a modified UpdateClientAddon API action to inject new API actio
         ]
     );
 
-    expect($result)->toHaveKey('result', 'success');
-    expect($result['permissions'])
+    expect($result)->toHaveKey('result', 'success')
+        ->and($result['permissions'])
         ->toContain('"getclientbyphonenumber":1,"setregistrarsettingvalue"');
 });
 
@@ -343,4 +346,31 @@ test("it can update a client's domain registrar", function () {
     );
 
     expect($result)->toHaveKey('domainid', 1);
+});
+
+test('it can place a new order', function () use ($config) {
+    Http::fake([
+        'https://whmcs.test/includes/api.php' => Http::response([
+            'result' => "success",
+            'orderid' => 1,
+            'serviceids' => "1,2",
+            'addonids' => "",
+            'domainids' => "",
+            'invoiceid' => 10,
+        ]),
+    ]);
+
+    $api = new WhmcsApi($config->server);
+
+    $orderDetails = [
+        'clientid' => 1,
+        'paymentmethod' => 'mailin',
+        'pid' => array(1,1),
+    ];
+
+    $result =$api->addOrder($orderDetails);
+
+    expect($result)
+        ->toHaveKey('result', 'success')
+        ->toHaveKeys(['serviceids', 'invoiceid']);
 });

@@ -1,5 +1,5 @@
 <?php
 
-use FintechSystems\Whmcs\Tests\TestCase;
+use Eugenefvdm\Whmcs\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
