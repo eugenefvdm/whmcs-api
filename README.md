@@ -1,7 +1,7 @@
 # WHMCS API
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/fintech-systems/whmcs-php-api) ![Tests](https://github.com/fintech-systems/whmcs-php-api/actions/workflows/tests.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/fintech-systems/whmcs-php-api)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/fintech-systems/whmcs-php-api) ![Tests](https://github.com/fintech-systems/whmcs-php-api/actions/workflows/tests.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/fintech-systems/whmcs-php-api) ![Downloads](https://img.shields.io/packagist/dt/eugenefvdm/whmcs-api)
 
-A fully testable WHMCS API designed to run standalone or as part of a Laravel Application
+A testable WHMCS API designed to run standalone or as part of a Laravel Application
 
 Requirements:
 
@@ -10,18 +10,38 @@ Requirements:
 
 # Installation
 
-In WHMCS, create API permissions at:
+```bash
+composer require eugenefvdm/whmcs-api
+cp .env.example .env
+```
+
+## Environment settings
+
+```dotenv
+WHMCS_URL=
+WHMCS_API_IDENTIFIER=
+WHMCS_API_SECRET=
+WHMCS_LIMITNUM=
+WHMCS_DEBUG=
+```
+
+Note: `WHMCS_URL` should be without the trialing slash.
+
+## WHMCS Setup
+
+Allow the IP address of the system connecting to WHMCS:
+
+```
+Systems Settings => General => Security => API IP Access Restriction
+```
+
+Create API permissions here:
 
 ```
 System Settings => API credentials => Generate New API Credential
 ```
 
-## WHMCS API Permissions
-
-- You need to allow the IP address of the computer connecting to WHMCS
-- You need to set API permissions
-
-## List of API permissions required:
+### Example API permissions required:
 
 - addclient
 - getclientsdetails
@@ -30,7 +50,7 @@ System Settings => API credentials => Generate New API Credential
 
 ### Custom API calls
 
-WHMCS removed the ability to add custom API calls but with a bit of hacking you can get it working again. 
+WHMCS removed the ability to add custom API calls, but there is a hack to get it working again. 
 
 An example of a custom API call would be to get a client by their phone number. Let's call this `getclientbyphonenumber`. At least two steps are required.
 
@@ -72,7 +92,8 @@ try {
 }
 ```
 
-Next to use the custom API call `getclientbyphonenumber` you need to manually update `tblapi_roles` to add it. Also remmeber to update it every time again you make a change because the UI will overwrite the custom API call.
+Next to use the custom API call `getclientbyphonenumber` you need to manually update `tblapi_roles` to add it.
+Also remember to update it every time again you make a change because the UI will overwrite the custom API call.
 
 ```json
 {"addclient":1,"getclientsdetails":1,"getclientbyphonenumber":1}
@@ -144,7 +165,8 @@ Laravel App:
 
 ## Change server
 
-Since we're using a Facade that's instantiated when it's called, we need some other way to call the contructor when we're connecting to another server.
+Since we're using a Facade instantiated when it's called,
+we need some other way to call the constructor when we're connecting to another server.
 
 ```php
 public function setServer($server) {
@@ -166,33 +188,15 @@ A new package is applied to the service. If the package is linked to an API, the
 
 # Testing
 
-Before testing, please ensure you have at least the following three environment variables set:
+Before testing, please ensure you have copied over the `.env.example` file to `.env`.
 
-```dotenv
-WHMCS_URL=
-WHMCS_API_IDENTIFIER=
-WHMCS_API_SECRET=
-```
+## Debugging
 
-Note: `WHMCS_URL` should be without the trialing slash otherwise tests will fail. For example:
-
-```dotenv
-WHMCS_URL=https://whmcs.test
-```
-
-You may do this:
-
-`cp .env.example .env`
-
-Then edit `.env` to include your WHMCS URL, API Identifier and API Secret.
-
-`vi .env`
+Set `WHMCS_DEBUG=true` in your `.env` file to enable debugging. This will output to Spatie Ray if it's installed.
 
 ## Running the tests
 
 `./vendor/bin/pest`
-
-If you want to run individual tests, append `->only();` to each test.
 
 To test custom API actions, use a script such as the following:
 
@@ -213,7 +217,10 @@ ls -la ../whmcs/includes/api/$1
 
 ## No errors on API actions but not working
 
-API actions are difficult to troubleshoot if you don't observe the server log file. Only some exceptions e.g. model problems will be caught by the Try Catch block. So help tail your server log file. For example, if you're using Laravel's Valet's NGinx server do this:
+API actions are difficult to troubleshoot if you don't observe the server log file.
+Only some exceptions, e.g., model problems will be caught by the Try Catch block.
+So help tail your server log file.
+For example, if you're using Laravel's Valet's Nginx server, do this:
 
 `tail -f ~/.valet/Log/nginx-error.log`
 
@@ -234,7 +241,9 @@ WHMCS_API_SECRET=
 
 ## Invalid Permissions: API action "addclient" is not allowed
 
-If you get `Invalid Permissions: API action "addclient" is not allowed` that means although you've added API roles and credentials, your roles are not set up properly for the API call. Revisit roles and the requisite subsection and see where you have to click the checkbox to allow this API call.
+If you get `Invalid Permissions: API action "addclient" is not allowed` that means,
+although you've added API roles and credentials, your roles are not set up properly for the API call.
+Revisit roles and the requisite subsection and see where you have to click the checkbox to allow this API call.
 
 ## Storage folder examples
 
@@ -244,27 +253,26 @@ The `storage` folder has examples API responses, also used for caching during te
 
 For local editing, add this to `composer.json`:
 
-```json
+```
 "repositories" : [
         {
             "type": "path",
-            "url": "../whmcs-php-api"
+            "url": "../whmcs-api"
         }
     ],
 ```
 
 Then in `require` section:
 
-```json
-"fintech-systems/whmcs-php-api": "dev-main",
+```
+"eugenefvdm/whmcs-api": "dev-main",
 ```
 
 Then do this to symlink:
 
 ```bash
-composer require fintech-systems/whmcs-php-api:dev-main
+composer require eugenefvdm/whmcs-api:dev-main
 ```
-
 
 # License
 
@@ -272,7 +280,8 @@ MIT
 
 # Author
 
-eugene (at) vander.host <br>
-https://vander.host <br>
-+27 82 309-6710
-I'm available for WHMCS consulting.
+hello (at) eugenefvdm.com <br>
+https://eugenefvdm.com <br>
++27 82 309-6710 <br>
+I am a Laravel, hosting, and WHMCS specialist.
+Contact me any time for assistance.
