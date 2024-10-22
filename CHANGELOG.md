@@ -2,6 +2,10 @@
 
 All notable changes to `whmcs-api` will be documented in this file.
 
+## Release v1.02 - 2024-10-22
+
+Description of what’s new in v1.02
+
 ## 22 Oct 2024
 
 - Added AcceptOrder and tagged a new version 1.02
