@@ -2,6 +2,10 @@
 
 All notable changes to `whmcs-api` will be documented in this file.
 
+## 22 Oct 2024
+
+- Added AcceptOrder and tagged a new version 1.02
+
 ## 19 Oct 2024
 
 - Moved the repo from `fintech-systems/whmcs-php-api` to `eugenefvdm/whmcs-api`

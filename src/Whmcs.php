@@ -31,6 +31,20 @@ class Whmcs implements BillingProvider
     }
 
     /**
+     * Accept order
+     *
+     * https://developers.whmcs.com/api-reference/acceptorder/
+     *
+     * @param $data
+     * @return array|mixed
+     * @throws Exception
+     */
+    public function acceptOrder($data): mixed
+    {
+        return $this->call('AcceptOrder', $data);
+    }
+
+    /**
      * Add client
      *
      * https://developers.whmcs.com/api-reference/addclient/
