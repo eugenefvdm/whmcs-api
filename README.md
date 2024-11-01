@@ -57,6 +57,40 @@ System Settings => API credentials => Generate New API Credential
 - getclientsdomains
 - custom list of API calls you are developing
 
+### Example, creating a new client with custom fields:
+
+```php
+test('it can create a new client in WHMCS', function () {
+    $customfields = base64_encode(
+        serialize(
+            [
+                8 => '50-100',
+            ]
+        )
+    );
+
+    $client = [
+        'firstname' => $this->faker->firstName,
+        'lastname' => $this->faker->lastName,
+        'email' => $this->faker->email,
+        'address1' => $this->faker->numberBetween(1, 100).' '.$this->faker->streetName,
+        'address2' => $this->faker->secondaryAddress,
+        'city' => $this->faker->city,
+        'state' => $this->faker->state,
+        'postcode' => $this->faker->postcode,
+        'country' => config('whmcs.default_country'),
+        'phonenumber' => $this->faker->phoneNumber,
+        'password2' => bin2hex(random_bytes(8)),
+        'customfields' => $customfields,
+    ];
+
+    $result = Whmcs::addClient($client);
+
+    expect($result)->toHaveKey('result')
+        ->and($result['result'] == 'success');
+})->only();
+```
+
 ### Custom API calls
 
 WHMCS removed the ability to add custom API calls, but there is a hack to get it working again. 
