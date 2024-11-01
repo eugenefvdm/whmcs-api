@@ -35,8 +35,8 @@ class Whmcs implements BillingProvider
      *
      * https://developers.whmcs.com/api-reference/acceptorder/
      *
-     * @param $data
      * @return array|mixed
+     *
      * @throws Exception
      */
     public function acceptOrder($data): mixed
